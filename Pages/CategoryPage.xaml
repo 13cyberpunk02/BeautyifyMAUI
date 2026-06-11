@@ -2,8 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BeautyifyMAUI.Pages.CategoryPage"
+             xmlns:vm="clr-namespace:BeautyifyMAUI.ViewModels"
              xmlns:models="clr-namespace:BeautyifyMAUI.Models"
-             x:DataType="models:CategoryItem"
+             x:DataType="vm:CategoryViewModel"
+             x:Name="Page"
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource Background}">
 
@@ -25,7 +27,7 @@
                        TextColor="{StaticResource TextPrimary}"
                        HorizontalOptions="Center" />
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnFilters" />
+                    <TapGestureRecognizer Command="{Binding OpenFiltersCommand}" />
                 </Border.GestureRecognizers>
             </Border>
 
@@ -38,7 +40,7 @@
                        TextColor="{StaticResource TextPrimary}"
                        HorizontalOptions="Center" />
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnProfile" />
+                    <TapGestureRecognizer Command="{Binding OpenProfileCommand}" />
                 </Border.GestureRecognizers>
             </Border>
         </Grid>
@@ -52,11 +54,10 @@
             <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
                 <Label Style="{StaticResource Icon}" Text="&#xef7a;" FontSize="20" />
                 <Entry Grid.Column="1"
-                       x:Name="SearchEntry"
+                       Text="{Binding SearchText}"
                        Style="{StaticResource InputEntry}"
                        FontFamily="Onest" FontSize="15"
-                       Placeholder="Поиск каналов и программ"
-                       TextChanged="OnSearchChanged" />
+                       Placeholder="Поиск каналов и программ" />
             </Grid>
         </Border>
 
@@ -86,7 +87,8 @@
                                     <Shadow Brush="#15191E" Opacity="0.06" Radius="14" Offset="0,4" />
                                 </Border.Shadow>
                                 <Border.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="OnCategoryTapped" />
+                                    <TapGestureRecognizer Command="{Binding BindingContext.OpenCategoryCommand, Source={x:Reference Page}}"
+                                                          CommandParameter="{Binding .}" />
                                 </Border.GestureRecognizers>
 
                                 <VerticalStackLayout Spacing="12">

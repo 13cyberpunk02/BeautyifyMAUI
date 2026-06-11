@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BeautyifyMAUI.ViewModels"
              xmlns:models="clr-namespace:BeautyifyMAUI.Models"
+             x:DataType="vm:ChannelsListViewModel"
+             x:Name="Page"
              x:Class="BeautyifyMAUI.Pages.ChannelsListPage"             
              Shell.NavBarIsVisible="False"
              BackgroundColor="{StaticResource Background}">
@@ -18,7 +21,7 @@
                        TextColor="{StaticResource TextPrimary}"
                        HorizontalOptions="Center" />
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnBack" />
+                    <TapGestureRecognizer Command="{Binding BackCommand}" />
                 </Border.GestureRecognizers>
             </Border>
 
@@ -36,7 +39,7 @@
                        TextColor="{StaticResource TextPrimary}"
                        HorizontalOptions="Center" />
                 <Border.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnSearch" />
+                    <TapGestureRecognizer Command="{Binding SearchCommand}" />
                 </Border.GestureRecognizers>
             </Border>
         </Grid>
@@ -54,7 +57,8 @@
                                FontFamily="OnestMedium" FontSize="14"
                                TextColor="{Binding ChipTextColor}" />
                         <Border.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnFilterTapped" />
+                            <TapGestureRecognizer Command="{Binding BindingContext.SelectFilterCommand, Source={x:Reference Page}}"
+                                                  CommandParameter="{Binding .}" />
                         </Border.GestureRecognizers>
                     </Border>
                 </DataTemplate>
@@ -76,7 +80,8 @@
                                 <Shadow Brush="#15191E" Opacity="0.05" Radius="10" Offset="0,3" />
                             </Border.Shadow>
                             <Border.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnChannelTapped" />
+                                <TapGestureRecognizer Command="{Binding BindingContext.OpenChannelCommand, Source={x:Reference Page}}"
+                                                      CommandParameter="{Binding .}" />
                             </Border.GestureRecognizers>
 
                             <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
@@ -133,7 +138,8 @@
                                            TextColor="{Binding FavoriteColor}"
                                            HorizontalOptions="End">
                                         <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="OnFavoriteTapped" />
+                                            <TapGestureRecognizer Command="{Binding BindingContext.ToggleFavoriteCommand, Source={x:Reference Page}}"
+                                                                  CommandParameter="{Binding .}" />
                                         </Label.GestureRecognizers>
                                     </Label>
                                 </VerticalStackLayout>

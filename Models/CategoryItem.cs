@@ -10,7 +10,7 @@ public class CategoryItem
     public required Color IconColor { get; init; }
     public int Count { get; init; }
 
-    /// <summary>«1 канал», «2 канала», «18 каналов» — правильные русские формы.</summary>
+    /// <summary>«1 канал», «2 канала», «18 каналов».</summary>
     public string CountText
     {
         get

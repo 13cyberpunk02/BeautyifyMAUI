@@ -1,10 +1,9 @@
 ﻿
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace BeautyifyMAUI.Models;
 
-public class ChannelItem : INotifyPropertyChanged
+public partial class ChannelItem : ObservableObject
 {
     private static readonly Color FavOff = Color.FromArgb("#C7CEDA");
     private static readonly Color FavOn = Color.FromArgb("#E5342B");
@@ -20,23 +19,9 @@ public class ChannelItem : INotifyPropertyChanged
 
     public string NumberText => Number.ToString();
 
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(FavoriteColor))]
     private bool _isFavorite;
-    public bool IsFavorite
-    {
-        get => _isFavorite;
-        set
-        {
-            if (_isFavorite == value) return;
-            _isFavorite = value;
-            OnPropertyChanged();
-            OnPropertyChanged(nameof(FavoriteColor));
-        }
-    }
 
     public Color FavoriteColor => IsFavorite ? FavOn : FavOff;
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-    private void OnPropertyChanged([CallerMemberName] string? name = null)
-        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 }
-

@@ -1,13 +1,16 @@
+using BeautyifyMAUI.ViewModels;
+
 namespace BeautyifyMAUI.Pages;
 
 public partial class LoginPage : ContentPage
 {
     private CancellationTokenSource? _blobAnimCts;
 
-    public LoginPage()
+    public LoginPage(LoginViewModel vm)
 	{
 		InitializeComponent();
-	}
+        BindingContext = vm;
+    }
 
     protected override void OnAppearing()
     {
@@ -49,41 +52,4 @@ public partial class LoginPage : ContentPage
             // страница могла быть выгружена — просто выходим
         }
     }
-
-    private void OnTogglePassword(object? sender, TappedEventArgs e)
-    {
-        PasswordEntry.IsPassword = !PasswordEntry.IsPassword;
-        // visibility_off : visibility
-        EyeIcon.Text = PasswordEntry.IsPassword ? "\ue8f5" : "\ue8f4";
-    }
-
-    private async void OnLoginClicked(object? sender, EventArgs e)
-    {
-        var contract = ContractEntry.Text?.Trim();
-        var password = PasswordEntry.Text;
-
-        if (string.IsNullOrWhiteSpace(contract) || string.IsNullOrWhiteSpace(password))
-        {
-            await DisplayAlertAsync("Вход", "Укажите номер договора и пароль.", "Ок");
-            return;
-        }
-        if(contract.Equals("000000") && password.Equals("111111"))
-        {
-            await Shell.Current.GoToAsync("//main");
-        }
-        // TODO: вызов API авторизации
-    }
-
-    private async void OnForgotPassword(object? sender, TappedEventArgs e)
-    {
-        // TODO: переход на восстановление пароля
-        await Task.CompletedTask;
-    }
-
-    private async void OnConnect(object? sender, TappedEventArgs e)
-    {
-        // TODO: переход на форму подключения
-        await Task.CompletedTask;
-    }
-
 }

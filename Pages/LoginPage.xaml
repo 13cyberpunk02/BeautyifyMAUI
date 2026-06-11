@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BeautyifyMAUI.ViewModels"
              x:Class="BeautyifyMAUI.Pages.LoginPage"
+             x:DataType="vm:LoginViewModel"
+             x:Name="Page"
              Shell.NavBarIsVisible="False"
-             Title="Авторизация"             
              BackgroundColor="{StaticResource Primary}">
 
     <Grid RowDefinitions="Auto,*">
@@ -75,9 +77,9 @@
                                    Text="{StaticResource IconBadge}"
                                    TextColor="{StaticResource Primary}" />
                             <Entry Grid.Column="1"
-                                   x:Name="ContractEntry"
+                                   Text="{Binding Contract}"
                                    Style="{StaticResource InputEntry}"
-                                   Placeholder="0123456789"
+                                   Placeholder="0000-0000-00"
                                    Keyboard="Numeric" />
                         </Grid>
                     </Border>
@@ -91,16 +93,15 @@
                             <Label Style="{StaticResource Icon}"
                                    Text="{StaticResource IconLock}" />
                             <Entry Grid.Column="1"
-                                   x:Name="PasswordEntry"
+                                   Text="{Binding Password}"
                                    Style="{StaticResource InputEntry}"
                                    Placeholder="••••••••"
-                                   IsPassword="True" />
+                                   IsPassword="{Binding IsPasswordHidden}" />
                             <Label Grid.Column="2"
-                                   x:Name="EyeIcon"
                                    Style="{StaticResource Icon}"
-                                   Text="{StaticResource IconVisibilityOff}">
+                                   Text="{Binding EyeGlyph}">
                                 <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="OnTogglePassword" />
+                                    <TapGestureRecognizer Command="{Binding TogglePasswordCommand}" />
                                 </Label.GestureRecognizers>
                             </Label>
                         </Grid>
@@ -109,8 +110,7 @@
 
                 <!-- Запомнить / Забыли пароль -->
                 <Grid ColumnDefinitions="Auto,Auto,*">
-                    <CheckBox x:Name="RememberCheck"
-                              IsChecked="True"
+                    <CheckBox IsChecked="{Binding Remember}"
                               Color="{StaticResource Primary}"
                               VerticalOptions="Center" />
                     <Label Grid.Column="1" Text="Запомнить"
@@ -122,14 +122,15 @@
                            TextColor="{StaticResource Primary}"
                            HorizontalOptions="End" VerticalOptions="Center">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnForgotPassword" />
+                            <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}" />
                         </Label.GestureRecognizers>
                     </Label>
                 </Grid>
 
                 <Button Style="{StaticResource PrimaryButton}"
                         Text="Войти"
-                        Clicked="OnLoginClicked" />
+                        Command="{Binding LoginCommand}"
+                        IsEnabled="{Binding IsNotBusy}" />
 
                 <!-- Нет договора -->
                 <HorizontalStackLayout Spacing="6" HorizontalOptions="Center">
@@ -139,7 +140,7 @@
                            FontFamily="OnestBold" FontSize="14"
                            TextColor="{StaticResource TextPrimary}">
                         <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="OnConnect" />
+                            <TapGestureRecognizer Command="{Binding ConnectCommand}" />
                         </Label.GestureRecognizers>
                     </Label>
                 </HorizontalStackLayout>
