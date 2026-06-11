@@ -10,8 +10,8 @@ public enum AlertKind { Info, Success, Error }
 public partial class BrandAlertPopup : Popup
 {
     public BrandAlertPopup(string title, string message,
-                               AlertKind kind = AlertKind.Info,
-                               string buttonText = "Понятно")
+                         AlertKind kind = AlertKind.Info,
+                         string buttonText = "Понятно")
     {
         InitializeComponent();
 
@@ -19,7 +19,6 @@ public partial class BrandAlertPopup : Popup
         MessageLabel.Text = message;
         OkButton.Text = buttonText;
 
-        // глиф + цветовая схема по типу сообщения
         var (glyph, fg, bg) = kind switch
         {
             AlertKind.Success => ("\uf0be", "#1FA764", "#E3F6EC"), // check_circle
@@ -32,5 +31,6 @@ public partial class BrandAlertPopup : Popup
         IconCircle.BackgroundColor = Color.FromArgb(bg);
     }
 
-    private void OnOkClicked(object? sender, EventArgs e) => CloseAsync();
+    private async void OnOkClicked(object? sender, EventArgs e)
+        => await CloseAsync();
 }
