@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:BeautyifyMAUI.Models"
+             x:Class="BeautyifyMAUI.Pages.ChannelsListPage"             
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="20,16,20,0" RowSpacing="16">
+
+        <!-- ===== Шапка: назад + заголовок + поиск ===== -->
+        <Grid Grid.Row="0" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+            <Border StrokeThickness="0"
+                    BackgroundColor="#EDF1F7"
+                    StrokeShape="RoundRectangle 22"
+                    WidthRequest="44" HeightRequest="44">
+                <Label Style="{StaticResource Icon}" Text="&#xe5c4;"
+                       TextColor="{StaticResource TextPrimary}"
+                       HorizontalOptions="Center" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnBack" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <Label Grid.Column="1"
+                   Text="{Binding CategoryTitle}"
+                   FontFamily="OnestBold" FontSize="24"
+                   TextColor="{StaticResource TextPrimary}"
+                   VerticalOptions="Center" />
+
+            <Border Grid.Column="2" StrokeThickness="0"
+                    BackgroundColor="#EDF1F7"
+                    StrokeShape="RoundRectangle 22"
+                    WidthRequest="44" HeightRequest="44">
+                <Label Style="{StaticResource Icon}" Text="&#xef7a;"
+                       TextColor="{StaticResource TextPrimary}"
+                       HorizontalOptions="Center" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSearch" />
+                </Border.GestureRecognizers>
+            </Border>
+        </Grid>
+
+        <!-- ===== Фильтры-чипы ===== -->
+        <HorizontalStackLayout Grid.Row="1" Spacing="10"
+                               BindableLayout.ItemsSource="{Binding Filters}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="models:FilterChip">
+                    <Border StrokeThickness="0"
+                            BackgroundColor="{Binding ChipColor}"
+                            StrokeShape="RoundRectangle 20"
+                            Padding="18,10">
+                        <Label Text="{Binding Title}"
+                               FontFamily="OnestMedium" FontSize="14"
+                               TextColor="{Binding ChipTextColor}" />
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OnFilterTapped" />
+                        </Border.GestureRecognizers>
+                    </Border>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </HorizontalStackLayout>
+
+        <!-- ===== Список каналов ===== -->
+        <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding Channels}"
+                        SelectionMode="None">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:ChannelItem">
+                    <Grid Padding="0,0,0,12">
+                        <Border BackgroundColor="{StaticResource Surface}"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 18"
+                                Padding="14,14">
+                            <Border.Shadow>
+                                <Shadow Brush="#15191E" Opacity="0.05" Radius="10" Offset="0,3" />
+                            </Border.Shadow>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnChannelTapped" />
+                            </Border.GestureRecognizers>
+
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+
+                                <!-- Плашка-логотип -->
+                                <Border BackgroundColor="{Binding TileColor}"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 14"
+                                        WidthRequest="52" HeightRequest="52"
+                                        VerticalOptions="Center">
+                                    <Label Text="{Binding Abbrev}"
+                                           FontFamily="OnestBold" FontSize="17"
+                                           TextColor="White"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Border>
+
+                                <!-- Название, передача, прогресс -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="4"
+                                                     VerticalOptions="Center">
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label Text="{Binding Name}"
+                                               FontFamily="OnestBold" FontSize="15"
+                                               TextColor="{StaticResource TextPrimary}"
+                                               LineBreakMode="TailTruncation" />
+                                        <Ellipse Fill="{StaticResource Live}"
+                                                 WidthRequest="7" HeightRequest="7"
+                                                 VerticalOptions="Center"
+                                                 IsVisible="{Binding IsLive}" />
+                                    </HorizontalStackLayout>
+
+                                    <Label Text="{Binding CurrentProgram}"
+                                           FontFamily="Onest" FontSize="13"
+                                           TextColor="{StaticResource TextSecondary}"
+                                           LineBreakMode="TailTruncation" />
+
+                                    <ProgressBar Progress="{Binding Progress}"
+                                                 ProgressColor="{StaticResource Primary}"
+                                                 BackgroundColor="#E3E8F0"
+                                                 HeightRequest="4"
+                                                 Margin="0,2,0,0" />
+                                </VerticalStackLayout>
+
+                                <!-- Номер + избранное -->
+                                <VerticalStackLayout Grid.Column="2" Spacing="8"
+                                                     VerticalOptions="Center"
+                                                     HorizontalOptions="End">
+                                    <Label Text="{Binding NumberText}"
+                                           FontFamily="OnestMedium" FontSize="13"
+                                           TextColor="{StaticResource TextSecondary}"
+                                           HorizontalOptions="End" />
+                                    <Label FontFamily="MaterialSymbols" FontSize="22"
+                                           Text="&#xe87e;"
+                                           TextColor="{Binding FavoriteColor}"
+                                           HorizontalOptions="End">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Tapped="OnFavoriteTapped" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.Footer>
+                <BoxView HeightRequest="12" Color="Transparent" />
+            </CollectionView.Footer>
+        </CollectionView>
+    </Grid>
+
+</ContentPage>

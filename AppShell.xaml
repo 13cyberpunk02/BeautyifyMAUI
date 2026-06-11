@@ -3,12 +3,59 @@
     x:Class="BeautyifyMAUI.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:BeautyifyMAUI"
+    xmlns:pages="clr-namespace:BeautyifyMAUI.Pages"
     Title="BeautyifyMAUI">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+
+    <ShellContent Route="splash"
+                  ContentTemplate="{DataTemplate pages:SplashPage}"
+                  Shell.NavBarIsVisible="False"
+                  FlyoutItemIsVisible="False" />
+
+    <ShellContent Route="login"
+                  ContentTemplate="{DataTemplate pages:LoginPage}"
+                  Shell.NavBarIsVisible="False"
+                  FlyoutItemIsVisible="False" />
+
+    <!-- ===== Основной таб-бар (после авторизации) ===== -->
+    <TabBar Route="main">
+
+        <ShellContent Route="channels" Title="Каналы"
+                      ContentTemplate="{DataTemplate pages:CategoryPage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="MaterialSymbols"
+                                 Glyph="&#xe5c3;" Size="24"
+                                 Color="{StaticResource Primary}" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent Route="guide" Title="Программа"
+                      ContentTemplate="{DataTemplate pages:GuidePage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="MaterialSymbols"
+                                 Glyph="&#xebcc;" Size="24"
+                                 Color="{StaticResource Primary}" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent Route="favorites" Title="Избранное"
+                      ContentTemplate="{DataTemplate pages:FavoritesPage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="MaterialSymbols"
+                                 Glyph="&#xe87e;" Size="24"
+                                 Color="{StaticResource Primary}" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+        <ShellContent Route="profile" Title="Профиль"
+                      ContentTemplate="{DataTemplate pages:ProfilePage}">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="MaterialSymbols"
+                                 Glyph="&#xf0d3;" Size="24"
+                                 Color="{StaticResource Primary}" />
+            </ShellContent.Icon>
+        </ShellContent>
+
+    </TabBar>
 
 </Shell>

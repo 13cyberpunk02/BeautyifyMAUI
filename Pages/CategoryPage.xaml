@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BeautyifyMAUI.Pages.CategoryPage"
+             xmlns:models="clr-namespace:BeautyifyMAUI.Models"
+             x:DataType="models:CategoryItem"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{StaticResource Background}">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="20,16,20,0" RowSpacing="16">
+
+        <!-- ===== Шапка: заголовок + кнопки ===== -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+            <Label Text="Каналы"
+                   FontFamily="OnestBold" FontSize="28"
+                   TextColor="{StaticResource TextPrimary}"
+                   VerticalOptions="Center" />
+
+            <!-- Фильтры -->
+            <Border Grid.Column="1" StrokeThickness="0"
+                    BackgroundColor="#EDF1F7"
+                    StrokeShape="RoundRectangle 22"
+                    WidthRequest="44" HeightRequest="44">
+                <Label Style="{StaticResource Icon}" Text="&#xe429;"
+                       TextColor="{StaticResource TextPrimary}"
+                       HorizontalOptions="Center" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnFilters" />
+                </Border.GestureRecognizers>
+            </Border>
+
+            <!-- Профиль -->
+            <Border Grid.Column="2" StrokeThickness="0"
+                    BackgroundColor="#EDF1F7"
+                    StrokeShape="RoundRectangle 22"
+                    WidthRequest="44" HeightRequest="44">
+                <Label Style="{StaticResource Icon}" Text="&#xf20b;"
+                       TextColor="{StaticResource TextPrimary}"
+                       HorizontalOptions="Center" />
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnProfile" />
+                </Border.GestureRecognizers>
+            </Border>
+        </Grid>
+
+        <!-- ===== Поиск ===== -->
+        <Border Grid.Row="1"
+                BackgroundColor="#EDF1F7"
+                StrokeThickness="0"
+                StrokeShape="RoundRectangle 16"
+                HeightRequest="52" Padding="16,0">
+            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                <Label Style="{StaticResource Icon}" Text="&#xef7a;" FontSize="20" />
+                <Entry Grid.Column="1"
+                       x:Name="SearchEntry"
+                       Style="{StaticResource InputEntry}"
+                       FontFamily="Onest" FontSize="15"
+                       Placeholder="Поиск каналов и программ"
+                       TextChanged="OnSearchChanged" />
+            </Grid>
+        </Border>
+
+        <!-- ===== Категории ===== -->
+        <ScrollView Grid.Row="2">
+            <VerticalStackLayout Spacing="14" Padding="0,4,0,20">
+                <Label Text="КАТЕГОРИИ"
+                       FontFamily="OnestMedium" FontSize="12"
+                       CharacterSpacing="1.5"
+                       TextColor="{StaticResource TextSecondary}" />
+
+                <CollectionView ItemsSource="{Binding Categories}"
+                                SelectionMode="None"
+                                VerticalOptions="Fill">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="2"
+                                         HorizontalItemSpacing="14"
+                                         VerticalItemSpacing="14" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:CategoryItem">
+                            <Border BackgroundColor="{StaticResource Surface}"
+                                    StrokeThickness="0"
+                                    StrokeShape="RoundRectangle 20"
+                                    Padding="16,18">
+                                <Border.Shadow>
+                                    <Shadow Brush="#15191E" Opacity="0.06" Radius="14" Offset="0,4" />
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnCategoryTapped" />
+                                </Border.GestureRecognizers>
+
+                                <VerticalStackLayout Spacing="12">
+                                    <!-- иконка в цветной плашке -->
+                                    <Border BackgroundColor="{Binding Tint}"
+                                            StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 14"
+                                            WidthRequest="48" HeightRequest="48"
+                                            HorizontalOptions="Start">
+                                        <Label FontFamily="MaterialSymbols" FontSize="24"
+                                               Text="{Binding Glyph}"
+                                               TextColor="{Binding IconColor}"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Border>
+
+                                    <VerticalStackLayout Spacing="2">
+                                        <Label Text="{Binding Title}"
+                                               FontFamily="OnestBold" FontSize="16"
+                                               TextColor="{StaticResource TextPrimary}" />
+                                        <Label Text="{Binding CountText}"
+                                               FontFamily="Onest" FontSize="13"
+                                               TextColor="{StaticResource TextSecondary}" />
+                                    </VerticalStackLayout>
+                                </VerticalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>
